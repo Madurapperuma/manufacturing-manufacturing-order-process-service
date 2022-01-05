@@ -1,0 +1,13 @@
+FROM rapid-base as base
+FROM rapid-base as build
+WORKDIR /usr/src/app
+COPY --from=base /usr/src/app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+
+FROM rapid-production as prod
+WORKDIR /usr/src/app
+#RUN rm package*.json
+#copy package.json .
+COPY --from=build /usr/src/app/dist ./dist
+#CMD ["npm", "run", "start:prod"]

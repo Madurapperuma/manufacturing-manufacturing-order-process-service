@@ -1,0 +1,112 @@
+{
+    "env": {
+        "node": true,
+        "jest": true
+    },
+    "root":true,
+    "extends": [
+        "airbnb-typescript",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
+
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project":"./tsconfig.json",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint/eslint-plugin"
+    ],
+    "rules": {
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "interface",
+                "format": [
+                    "StrictPascalCase"
+                ],
+                "custom": {
+                    "regex": "^I[A-Z]",
+                    "match": false
+                }
+            },
+            {
+                "selector": ["class","enum"],
+                "format": ["StrictPascalCase"]
+            },
+            {
+                "selector": ["variable"],
+                "format": ["strictCamelCase"]
+            },
+            {
+                "selector": ["variable"],
+                "modifiers":["private"],
+                "format": [ "strictCamelCase"],
+                "leadingUnderscore":"require",
+                "trailingUnderscore":"forbid"
+            },
+             {
+                "selector": ["parameterProperty"],
+                "format": ["strictCamelCase"]
+            },
+            {
+                "selector": ["parameterProperty"],
+                  "modifiers":["private"],
+                "format": [ "strictCamelCase"],
+                "leadingUnderscore":"require",
+                "trailingUnderscore":"forbid"
+            },
+            {
+                "selector": ["method","classMethod","objectLiteralMethod","typeMethod"],
+                "format": ["strictCamelCase"]
+            },
+            {
+                "selector": ["method","classMethod","objectLiteralMethod","typeMethod"],
+                "modifiers":["private"],
+                "format": [ "strictCamelCase"],
+                "leadingUnderscore":"require",
+                "trailingUnderscore":"forbid"
+            },
+            {
+                "selector": "property",
+                "modifiers":["private"],
+                "format": [ "strictCamelCase"],
+                "leadingUnderscore":"require",
+                "trailingUnderscore": "forbid"
+            },
+            {
+                "selector": "property",
+                "format": ["strictCamelCase"]
+            },
+            {
+                "selector": "enumMember",
+                "format": ["UPPER_CASE"]
+            },{
+                "selector": "variableLike",
+                "format": ["strictCamelCase"]
+            },
+             {
+                "selector": "memberLike",
+                "format": ["strictCamelCase"]
+            }, 
+            {
+                "selector": "typeLike",
+                "format": ["StrictPascalCase"]
+            }
+            
+        ],
+        "no-underscore-dangle":["error",{"allowAfterThis": true}],
+        "semi": "error",
+        "no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/interface-name-prefix":"off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "lines-between-class-members": "off",
+        "@typescript-eslint/lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }]
+        
+        
+    }
+}

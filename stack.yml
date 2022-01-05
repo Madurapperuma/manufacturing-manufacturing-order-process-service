@@ -1,0 +1,19 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: OPENFAAS_GATAWAY_URL
+functions:
+  rapid-example-service:
+    namespace: architect
+    lang: dockerfile
+    handler: ./
+    image: 328680294982.dkr.ecr.ap-southeast-1.amazonaws.com/rapid/rapid-example-service:DOCKER_IMAGE_TAG
+    environment:
+      NEW_RELIC_APP_NAME: 'rapid-example-service'
+      CONFIGURATION_BASE_URL: 'http://gateway.openfaas:8080/function/brandix-configuration-service.utility/configurations'
+      SERVICE_NAME: 'rapid-example-service'
+      STAGE: 'dev'
+    environment_file:
+      - ENV_PATH/app-newrelic.yml  
+    environment_file:
+      - ENV_PATH/app-newrelic.yml  

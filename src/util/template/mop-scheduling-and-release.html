@@ -1,0 +1,61 @@
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+  <div>
+    <br />
+    <p>
+      Dear User,
+      <p>
+        Please refer the MOP Scheduling & Release details below.
+      </p>
+    </p>
+    <br />
+    <table>
+      <tr>
+        <th style="width: 10%; min-width: 150px;">Date</th>
+        <th style="width: 10%; min-width: 150px;">Start Time</th>
+        <th style="width: 10%; min-width: 150px;">End Time</th>
+        <th style="width: 10%; min-width: 150px;">Orders submitted for update</th>
+        <th style="width: 10%; min-width: 150px;">Successful updates</th>
+        <th style="width: 30%; min-width: 150px;">Failed updates</th>
+      </tr>
+        <tr>
+          <td>
+            <%= date %>
+          </td>
+          <td>
+            <%= startTime %>
+          </td>
+          <td>
+            <%= endTime %>
+          </td>
+          <td>
+            <%= noOfOrders %>
+          </td>
+          <td>
+            <%= noOfCompleted %>
+          </td>
+          <td><%= noOfFailed %></td>
+        </tr>
+    </table>
+    <br />
+    <p>
+      Thank you,
+    </p>
+    <p>
+      System administrator – Schedule Release SDK
+    </p>
+    <br />
+  </div>
+  

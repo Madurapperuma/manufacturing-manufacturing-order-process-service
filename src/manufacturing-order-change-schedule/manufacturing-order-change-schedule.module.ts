@@ -6,6 +6,7 @@ import { ManufacturingOrderChangeScheduleResolver } from "./manufacturing-order-
 import { ManufacturingOrderChangeScheduleService } from "./manufacturing-order-change-schedule.service";
 import { ManufacturingOrderJobService } from "./jobs/manufacturing-order-job.service";
 import { ChangeScheduleProcessor } from "./jobs/manufacturing-order-change-schedule.processor";
+import { MopsDataSource } from "./data-source/allMop.datasource";
 
 @Module({
     imports: [
@@ -18,7 +19,8 @@ import { ChangeScheduleProcessor } from "./jobs/manufacturing-order-change-sched
         ManufacturingOrderChangeScheduleResolver,
         ManufacturingOrderChangeScheduleService,
         ManufacturingOrderJobService,
-        ChangeScheduleProcessor
+        ChangeScheduleProcessor,
+        MopsDataSource
     ],
 })
 

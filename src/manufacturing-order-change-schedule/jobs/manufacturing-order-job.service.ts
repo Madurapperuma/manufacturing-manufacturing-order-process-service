@@ -3,6 +3,7 @@ import { Queue } from "bull";
 import { InjectQueue } from "@nestjs/bull";
 
 import { ChangeScheduleArgs } from "../args/change-schedule.args";
+import { MopArgs } from "../args/mop.args";
 
 @Injectable()
 export class ManufacturingOrderJobService {
@@ -10,13 +11,16 @@ export class ManufacturingOrderJobService {
         @InjectQueue('change-schedule') private scheduleQueue: Queue
     ) {}
 
-    queueChangeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number,type:string) => {
+    queueChangeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number, changedScheduleNo: number, type:string, selectedAll: boolean, queryData: MopArgs) => {
         return await this.scheduleQueue.add('updat', {
             company,
             userId,
             currentScheduleNo,
+            changedScheduleNo,
             inputData,
-            type
+            type,
+            selectedAll,
+            queryData
         });
     }
 }

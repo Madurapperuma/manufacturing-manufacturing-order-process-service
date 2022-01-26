@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import fs from 'fs/promises';
+import * as fs from 'fs/promises';
 
 @Injectable()
 export default class FileSerivce {

@@ -10,6 +10,7 @@ import NotificationService from './notification.service';
 import EmailService from './email.service';
 import FileSerivce from './file.service';
 import TemplateSerivce from './template.service';
+import GraphqlClientService from './graphql.service';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import TemplateSerivce from './template.service';
       }),
     }),
   ],
-  providers: [CacheService, HttpClientService, M3ClientService, NotificationService, EmailService, FileSerivce, TemplateSerivce],
-  exports: [HttpClientService, M3ClientService, CacheService, NotificationService, EmailService, FileSerivce, TemplateSerivce],
+  providers: [CacheService, HttpClientService, M3ClientService, NotificationService, EmailService, FileSerivce, TemplateSerivce, GraphqlClientService],
+  exports: [HttpClientService, M3ClientService, CacheService, NotificationService, EmailService, FileSerivce, TemplateSerivce, GraphqlClientService],
 })
 export default class UtilModule {}

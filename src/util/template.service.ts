@@ -13,7 +13,7 @@ export default class TemplateSerivce {
   
     const content = await this.fileService.read(
       path.resolve(
-       `${__dirname}\\template\\mop-scheduling-and-release.html`,
+       `${__dirname}/template/mop-scheduling-and-release.html`,
       ),
     );
   

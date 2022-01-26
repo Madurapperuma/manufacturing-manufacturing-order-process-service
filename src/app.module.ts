@@ -15,6 +15,7 @@ import ServiceConfigModule from './service-configuration/service-configuration.m
 import NotificationModule from './notification/notification.module';
 import WebinarApi from './employee/webinar-api.service';
 import { ManufacturingOrderChangeScheduleModule } from './manufacturing-order-change-schedule/manufacturing-order-change-schedule.module';
+import { ManufacturingOrderBulkReleaseeModule } from './manufacturing-order-bulk-release/manufacturing-order-bulk-release.module';
 
 const dataSources = () => ({
   webinar: new WebinarApi(),
@@ -86,7 +87,8 @@ const dataSources = () => ({
     }),
     UtilModule,
     RndModule,
-    ManufacturingOrderChangeScheduleModule
+    ManufacturingOrderChangeScheduleModule,
+    ManufacturingOrderBulkReleaseeModule
   ],
   controllers: [PingController],
   providers: [],

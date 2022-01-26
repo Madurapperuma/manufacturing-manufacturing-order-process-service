@@ -1,12 +1,14 @@
 import { Process, Processor } from "@nestjs/bull";
 import { Job } from "bull";
 import { PinoLogger } from "nestjs-pino";
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import { M3ClientService } from "../../util/m3-client.service";
 import NotificationService from "../../util/notification.service";
 import EmailService from "../../util/email.service";
 import TemplateSerivce from "../../util/template.service";
+
+import { MopsDataSource } from '../data-source/allMop.datasource';
 
 import { ChangeScheduleArgs } from "../args/change-schedule.args";
 
@@ -21,6 +23,7 @@ export class ChangeScheduleProcessor {
         private notificationService: NotificationService,
         private emailService: EmailService,
         private templateService: TemplateSerivce,
+        private mopDataSource: MopsDataSource,
         private logger: PinoLogger
     ) {}
 
@@ -29,7 +32,20 @@ export class ChangeScheduleProcessor {
         const {data: { userId, ...rest }} = job;
         try {
             this.logger.trace('Starting Change-Schedule Job...');
-            const {type,inputData, currentScheduleNo} = rest;
+            const {type,inputData, currentScheduleNo, changedScheduleNo,selectedAll, ...data} = rest;
+            let changeScheduleInputs: ChangeScheduleArgs[] = inputData;
+            if(selectedAll){
+                const {queryData: { co, facility, style, scheduleNo }} = data;
+                const {mmoplp} = await this.mopDataSource.getAllMops(facility, scheduleNo, co, style);
+                changeScheduleInputs = mmoplp.map((e: any) => {
+                    const { plannedOrder, company } = e;
+                    return {
+                        company,
+                        plannedOrder,
+                        scheduleNo: changedScheduleNo
+                    }
+                })
+            }
             const scheduleInput = {
                 division: '',
                 maxRecord: 0,
@@ -45,8 +61,7 @@ export class ChangeScheduleProcessor {
                 deleteWarning: false,
                 data: {}
             }
-            // console.log(`${__dirname}` __dirname);
-            const results = await Promise.all(inputData.map( async (e: ChangeScheduleArgs) => {
+            const results = await Promise.all(changeScheduleInputs.map( async (e: ChangeScheduleArgs) => {
                 this.logger?.info('Change-Schedule updateing', JSON.stringify(e));
                 const {plannedOrder, scheduleNo, status, company} = e;
                 const input = new Map<string, string>();
@@ -94,18 +109,13 @@ export class ChangeScheduleProcessor {
                 return {isError, ...other};
             }))
             const scheduleResults = ContentDetails(results);
-           
             const template = await this.templateService.changeScheduleContent(scheduleResults);
-           
-            const emailV = await this.emailService.send({
-                to: 'hansia@fortude.co',
+            await this.emailService.send({
+                to: 'GayanMadu@fortude.co',
                 from: 'noreply@brandix.com',
                 subject: 'MOP Scheduling & Release',
                 template
-
-
             });
-           
         } catch (error) {
             this.logger?.info('Change-schedule Error', JSON.stringify(error));
             const notification: Notification = {

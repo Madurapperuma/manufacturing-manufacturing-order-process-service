@@ -4,8 +4,11 @@ import { ManufacturingOrderChangeScheduleService } from './manufacturing-order-c
 
 import { ChangeSchedule } from './response/change-schedule.type';
 import { UpdateScheduleNo } from './types/updateSheduleNo.type';
+import { BulkRelease } from "./types/bulkRelease.type";
 
 import { ChangeScheduleArgs } from "./args/change-schedule.args";
+import { BulkReleaseArgs } from "./args/bulk-release-schedules.args";
+import { MopArgs } from './args/mop.args';
 
 @Resolver(() => ChangeSchedule)
 export class ManufacturingOrderChangeScheduleResolver {
@@ -16,10 +19,14 @@ export class ManufacturingOrderChangeScheduleResolver {
        @Args('company') company: number,
        @Args('userId') userId: string,
        @Args('currentScheduleNo') currentScheduleNo: number,
-       @Args({ name: 'inputData', type: () => [ChangeScheduleArgs] }) inputData: ChangeScheduleArgs[],
+       @Args('changedScheduleNo') changedScheduleNo: number,
+       @Args({ name: 'inputData', type: () => [ChangeScheduleArgs], nullable: true }) inputData?: ChangeScheduleArgs[],
        @Args({ name: 'type', type: () => String, nullable: true }) type?: string,
+       @Args({ name: 'selectedAll', type: () => Boolean, nullable: true }) selectedAll?: boolean,
+       @Args({ name: 'queryData', type: () => MopArgs, nullable: true }) queryData?: MopArgs
    ): Promise<UpdateScheduleNo> {
   
-    return await this.changeScheduleService.changeSchedule(userId, company, inputData, currentScheduleNo,type);
+    return await this.changeScheduleService.changeSchedule(userId, company, inputData, currentScheduleNo, changedScheduleNo, type, selectedAll, queryData);
    }
+
 }

@@ -81,7 +81,7 @@ const dataSources = () => ({
     BullModule.forRoot({
       redis: {
         host: 'localhost',
-        port: 6380
+        port: 6379
       }
     }),
     UtilModule,

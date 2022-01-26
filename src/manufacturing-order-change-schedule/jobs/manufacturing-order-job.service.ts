@@ -10,12 +10,13 @@ export class ManufacturingOrderJobService {
         @InjectQueue('change-schedule') private scheduleQueue: Queue
     ) {}
 
-    queueChangeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number) => {
+    queueChangeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number,type:string) => {
         return await this.scheduleQueue.add('updat', {
             company,
             userId,
             currentScheduleNo,
-            inputData
+            inputData,
+            type
         });
     }
 }

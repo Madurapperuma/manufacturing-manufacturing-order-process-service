@@ -7,11 +7,16 @@ import { ScheduleContent } from './dto/template.dto';
 
 @Injectable()
 export default class TemplateSerivce {
-    constructor(private fileService: FileSerivce) {
-    }
+  constructor(private fileService: FileSerivce) {}
 
-    changeScheduleContent = async (data: any) : Promise<string> => {
-        const content = await this.fileService.read(path.resolve(`${__dirname}/template/mop-scheduling-and-release.html`));
-        return _.template(content)({...data})
-    }
+  changeScheduleContent = async (data: any): Promise<string> => {
+  
+    const content = await this.fileService.read(
+      path.resolve(
+       `${__dirname}\\template\\mop-scheduling-and-release.html`,
+      ),
+    );
+  
+    return _.template(content)({ ...data });
+  };
 }

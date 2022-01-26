@@ -16,8 +16,10 @@ export class ManufacturingOrderChangeScheduleResolver {
        @Args('company') company: number,
        @Args('userId') userId: string,
        @Args('currentScheduleNo') currentScheduleNo: number,
-       @Args({ name: 'inputData', type: () => [ChangeScheduleArgs] }) inputData: ChangeScheduleArgs[]
+       @Args({ name: 'inputData', type: () => [ChangeScheduleArgs] }) inputData: ChangeScheduleArgs[],
+       @Args({ name: 'type', type: () => String, nullable: true }) type?: string,
    ): Promise<UpdateScheduleNo> {
-    return await this.changeScheduleService.changeSchedule(userId, company, inputData, currentScheduleNo);
+  
+    return await this.changeScheduleService.changeSchedule(userId, company, inputData, currentScheduleNo,type);
    }
 }

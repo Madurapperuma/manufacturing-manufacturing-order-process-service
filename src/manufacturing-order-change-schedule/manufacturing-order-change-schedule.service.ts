@@ -14,9 +14,9 @@ export class ManufacturingOrderChangeScheduleService {
         this.logger.setContext('ChangeScheduleProcessor')
     };
 
-    changeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number) => {
+    changeSchedule = async (userId: string, company: number, inputData: ChangeScheduleArgs[], currentScheduleNo: number,type:string) => {
         try {
-            const job = await this.jobService.queueChangeSchedule(userId, company, inputData, currentScheduleNo);
+            const job = await this.jobService.queueChangeSchedule(userId, company, inputData, currentScheduleNo,type);
             return {
                 status: 'success'
             }

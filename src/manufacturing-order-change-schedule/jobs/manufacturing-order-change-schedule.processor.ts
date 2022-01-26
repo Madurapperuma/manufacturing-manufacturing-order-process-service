@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { M3ClientService } from "../../util/m3-client.service";
 import NotificationService from "../../util/notification.service";
 import EmailService from "../../util/email.service";
-import TemplateSerivce from "src/util/template.service";
+import TemplateSerivce from "../../util/template.service";
 
 import { ChangeScheduleArgs } from "../args/change-schedule.args";
 
@@ -29,7 +29,7 @@ export class ChangeScheduleProcessor {
         const {data: { userId, ...rest }} = job;
         try {
             this.logger.trace('Starting Change-Schedule Job...');
-            const {inputData, currentScheduleNo} = rest;
+            const {type,inputData, currentScheduleNo} = rest;
             const scheduleInput = {
                 division: '',
                 maxRecord: 0,
@@ -37,6 +37,7 @@ export class ChangeScheduleProcessor {
                 transaction: ('Updat').trim(),
                 output: [],
             }
+            
             const notification: Notification = {
                 priority: 'HIGH',
                 type: 'SUCCESS',
@@ -62,25 +63,49 @@ export class ChangeScheduleProcessor {
                 }));
                 // NOTE: Change-schedule m3Client response empty array Object.
                 this.logger?.info(`Change Schedule result: ${JSON.stringify(e)}`)
-                await this.notificationService.notifyUser(userId, {
+                this.logger?.info('Add-Schedule type', type);
+                if(type === "addSchedule"){
+                    await this.notificationService.notifyUser(userId, {
+                        ...notification,
+                        type: isError ? 'ERROR' : 'SUCCESS',
+                        data: {
+                            message: isError ? `Couldn't complete add-schedule ${other?.responseMessage?.errorMessage}` : `Schedule(s) ${scheduleNo} created`
+                        }
+                    })
+                } 
+                else  if(type === "releaseSchedule"){
+                    await this.notificationService.notifyUser(userId, {
+                        ...notification,
+                        type: isError ? 'ERROR' : 'SUCCESS',
+                        data: {
+                            message: isError ? `Couldn't complete release-schedule ${other?.responseMessage?.errorMessage}` : `Schedule  ${scheduleNo} has been 
+                            released`
+                        }
+                    })
+                } 
+                else{
+                    await this.notificationService.notifyUser(userId, {
                     ...notification,
                     type: isError ? 'ERROR' : 'SUCCESS',
                     data: {
                         message: isError ? `Couldn't complete change-schedule ${other?.responseMessage?.errorMessage}` : `Schedule changed from ${currentScheduleNo} to ${scheduleNo}`
                     }
-                })
+                })}
                 return {isError, ...other};
             }))
             const scheduleResults = ContentDetails(results);
+           
             const template = await this.templateService.changeScheduleContent(scheduleResults);
+           
             const emailV = await this.emailService.send({
-                to: 'gayanmadu@fortude.co',
+                to: 'hansia@fortude.co',
                 from: 'noreply@brandix.com',
                 subject: 'MOP Scheduling & Release',
                 template
 
+
             });
-            console.log(emailV);
+           
         } catch (error) {
             this.logger?.info('Change-schedule Error', JSON.stringify(error));
             const notification: Notification = {

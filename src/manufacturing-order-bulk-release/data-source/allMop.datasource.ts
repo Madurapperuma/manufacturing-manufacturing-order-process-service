@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { PinoLogger } from 'nestjs-pino';
-import GraphqlClientService from 'src/util/graphql.service';
+import GraphqlClientService from '../../util/graphql.service';
 import {GET_ALL_MOPS} from '../query/get-all-mops.gql';
 
 @Injectable()

@@ -68,7 +68,12 @@ export class BulkReleaseProcessor {
              }).value());
         }).value())).map( async (o, i) => {
             const scheduleNo = scheduleNumbers[i];
-            const releasedMops = await this.mopDataSource.getAllMops(facility, scheduleNo);
+            let releasedMops = null;
+            try {
+                releasedMops = await this.mopDataSource.getAllMops(facility, scheduleNo);   
+            } catch (error) {
+                releasedMops = {mmoplp: [], totoal: 1};
+            }
             await this.notificationService.notifyUser(userId, {
                 ...notification,
                 type: releasedMops.total !== 0 ? 'ERROR' : 'SUCCESS',
